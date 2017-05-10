@@ -4,7 +4,7 @@ from __future__ import print_function
 import theano
 import theano.tensor as T
 import numpy as np
-import cPickle as pickle
+import pickle
 import os
 from collections import defaultdict
 from helpers import load_data, mkdir, floatX
@@ -296,4 +296,5 @@ class Model(object):
     if self._trainer is None:
       raise NotImplementedError(
         "Need to call model.maketrainer() first!")
-    return map(float, self._trainer(*args, **kwargs))
+    return list(map(
+      float, self._trainer(*args, **kwargs)))

@@ -205,7 +205,7 @@ def makemodel(
     ("random juggler?", randomjuggler),
     ("epsilon", epsilon),
     ])
-  for name, val in model.constants.iteritems():
+  for name, val in model.constants.items():
     model.Print("{:>20s}".format(name), val)  
   
   #$ px_stack
@@ -260,7 +260,7 @@ def makemodel(
   # respect to them.
   model.networks = networks
   model.params = []
-  for name, net in model.networks.iteritems():
+  for name, net in model.networks.items():
     model.Print("{:>20s}".format(name), net)
     model.params += net.params
   #$
@@ -578,9 +578,9 @@ def makemodel(
   model.stats = theano.function(
     inputs=[],
     outputs = model.outputs,
-    givens={Xl2s:model.Xl,
-            Yl2:model.Ylh,
-            Xu2s:model.Xu,
+    givens={Xl2s:model.Xl[:1000],
+            Yl2:model.Ylh[:1000],
+            Xu2s:model.Xu[:1000],
             K:1},
     allow_input_downcast=True)
     
@@ -658,7 +658,7 @@ def train(model,
   # much larger than the labeled portion, then
   # there are len(model.data.train_x) / Nu
   # minibatches per epoch.
-  NBatches = len(model.data.train_x) / Nu  
+  NBatches = int(len(model.data.train_x) / Nu)
   
   # How many times we want to loop over the
   # entire unlabeled data set.
@@ -709,7 +709,7 @@ def train(model,
       
       if savejuggler.iscombo:
         #model._trainer.print_summary()
-        v = map(float, model.stats())
+        v = list(map(float, model.stats()))
         accuracyT = model.accuracyT()
         accuracyL = model.accuracyL()
         

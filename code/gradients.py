@@ -1,7 +1,6 @@
 
 from __future__ import print_function
 
-from itertools import izip
 import theano
 import theano.tensor as T
 import numpy as np
@@ -62,7 +61,7 @@ class Descenter(object):
   @property
   def settings(self):
     return "\n".join(["{:>20s} {}".format(k,v)
-      for k, v in self.params.iteritems()])
+      for k, v in self.params.items()])
     
 class RMSprop(Descenter):
   
@@ -138,7 +137,7 @@ class Adadelta(Descenter):
     gradients_sq_new = [ 
       rho*g_sq + (one-rho)*(g**2) 
       for g_sq,g 
-      in izip(gradients_sq, gradients) ]
+      in zip(gradients_sq, gradients) ]
   
     # calculates the step in direction. 
     # The square root is an approximation to 
@@ -146,12 +145,12 @@ class Adadelta(Descenter):
     deltas = [ 
       (T.sqrt(d_sq+eps)/T.sqrt(g_sq+eps))*grad 
       for d_sq,g_sq,grad 
-      in izip(deltas_sq,gradients_sq_new,gradients) ]
+      in zip(deltas_sq,gradients_sq_new,gradients) ]
   
     # calculates the new "average" deltas 
     # for the next step.
     deltas_sq_new = [ rho*d_sq + (one-rho)*(d**2) 
-      for d_sq,d in izip(deltas_sq,deltas) ]
+      for d_sq,d in zip(deltas_sq,deltas) ]
   
     # Prepare it as a list f
     gradient_sq_updates = zip(
@@ -159,7 +158,7 @@ class Adadelta(Descenter):
     deltas_sq_updates = zip(
       deltas_sq,deltas_sq_new)
     parameters_updates = [ 
-      (p,p - d) for p,d in izip(params,deltas) ]
+      (p,p - d) for p,d in zip(params,deltas) ]
     return gradient_sq_updates + \
       deltas_sq_updates + \
       parameters_updates  

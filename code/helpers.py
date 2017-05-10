@@ -1,7 +1,7 @@
 
 from __future__ import print_function
 import os, gzip, errno, datetime, time
-import cPickle as pickle
+import pickle
 import numpy as np
 import scipy
 import theano
@@ -93,9 +93,14 @@ def load_data(datafile=datafile,
   validation, and a pair for testing.
   We ignore the validation set.
   """
-  datasets = pickle.load(gzip.open(datafile,"rb"))
+  datasets = pickle.load(gzip.open(datafile,"rb"),
+                         encoding="latin1")
   train_x, train_y = datasets[0]
+  valid_x, valid_y = datasets[1]
   test_x, test_y = datasets[2]
+  
+  train_x = np.concatenate([train_x, valid_x])
+  train_y = np.concatenate([train_y, valid_y])
   
   if shuffledata:
     if seed is None:
