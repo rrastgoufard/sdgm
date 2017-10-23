@@ -514,7 +514,7 @@ def makemodel(
   Xt = Xt2.dimshuffle([0,"x",1])
   Et = Et2.dimshuffle(["x",0,1])
   muat, sdat = fax([Xt])
-  At = muat + Et*sdat
+  At = muat + T.exp(sdat)*Et
   
   inputt = [At, Xt]
   prediction = T.argmax(
