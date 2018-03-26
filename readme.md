@@ -24,7 +24,7 @@ The speed sorted itself out due to an update in theano from 0.8 to 0.9.
 
 The consistency and power improved because of an increase in the data size.  The mnist data set originally has 50,000 training data points, 10,000 validation points, and 10,000 testing points.  We used to ignore the validation set entirely, but now we add the validation set to the training set's unlabeled data for a total of 60,000 unlabeled images.  This seems to be sufficient for squeezing out an extra 1% to 2% maximum as well as improved consistency.
 
-######/Update
+###### /Update
 
 In the folder given_files, there are two pdf files, both showing a handful of test-data accuracies against training epoch. After 200 epochs, Maaloe's version always gets at least 95.5% accuracy and goes as high as 97.9%.  With the above updates, our version also always reaches at least 95.5% and has a maximum of 97.8%.  
 
